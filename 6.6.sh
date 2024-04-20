@@ -32,6 +32,9 @@ git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall
 # Add OpenClash
 git clone --depth=1 https://github.com/vernesong/OpenClash
 
+# Add adguardhome
+git clone --depth=1 https://github.com/kongfl888/luci-app-adguardhome package/luci-app-adguardhome
+
 # Add luci-theme
 git clone --depth=1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config

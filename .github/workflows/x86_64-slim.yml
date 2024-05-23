@@ -18,9 +18,9 @@ on:
 
 env:
   REPO_URL: https://github.com/DHDAXCW/lede-rockchip
-  REPO_BRANCH: master
+  REPO_BRANCH: stable
   CONFIG_FILE: configs/x86_64-slim.config
-  DIY_SH: lean.sh
+  DIY_SH: diy-mini.sh
   KMODS_IN_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai

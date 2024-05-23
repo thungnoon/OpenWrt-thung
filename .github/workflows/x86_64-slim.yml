@@ -6,28 +6,28 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: x86-x64-slim
+name: x86_x64-slim
 
 on:
   repository_dispatch:
   workflow_dispatch:
-  # schedule:
-    # - cron: 0 17 * * *
-  # watch:
-  #   types: started
+   schedule:
+     - cron: 0 17 */5 * *
+   watch:
+     types: started
 
 env:
   REPO_URL: https://github.com/DHDAXCW/lede-rockchip
-  REPO_BRANCH: stable
+  REPO_BRANCH: master
   CONFIG_FILE: configs/x86_64-slim.config
-  DIY_SH: lean.sh
+  DIY_SH: diy-mini.sh
   KMODS_IN_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
 jobs:
   Build:
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     outputs:
       OPENWRTROOT: ${{ steps.update.outputs.OPENWRTROOT }}
       PLATFORM: ${{ steps.compile.outputs.PLATFORM }}
@@ -141,7 +141,7 @@ jobs:
         rm -rf openwrt-x86-64-generic-squashfs-rootfs.img.gz
         rm -rf openwrt-x86-64-generic-squashfs-combined-efi.vmdk
         rm -rf openwrt-x86-64-generic.manifest
-        mv slim-openwrt-x86-64-generic-squashfs-combined-efi.img.gz $(date +"%Y.%m.%d")-slim-openwrt-x86-64-squashfs-efi.img.gz
+        mv openwrt-x86-64-generic-squashfs-combined-efi.img.gz $(date +"%Y.%m.%d")-slim-openwrt-x86-64-squashfs-efi.img.gz
         popd
         make checksum
         echo "GENERATE_STATUS=success" >> $GITHUB_OUTPUT

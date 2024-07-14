@@ -151,14 +151,14 @@ jobs:
         rename 's/^/openwrt-immortalwrt-/' *
         echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
     
-  - name: Upload Firmware To Artifact
+   - name: Upload Firmware To Artifact
       if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE != 'true'
       uses: actions/upload-artifact@main
       with:
         name: ${{ env.SOURCE_REPO }}-firmware-${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}-${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE_PATH }}
     
-  - name: Upload Firmware To Release
+   - name: Upload Firmware To Release
       if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE == 'true'
       uses: ncipollo/release-action@v1
       with:
@@ -180,13 +180,13 @@ jobs:
           - 固件编译前最后一次➦[主源码](${{ env.REPO_URL }})更新记录
           - ${{ env.COMMIT_AUTHOR }}
 
-  - name: Delete workflow runs
+   - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
           retain_days: 3
           keep_minimum_runs: 3
 
-  - name: Remove old Releases
+   - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.2.1
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
@@ -195,7 +195,7 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  - name: Delete Artifacts
+   - name: Delete Artifacts
       uses: geekyeggo/delete-artifact@v2
       with:
          name: |

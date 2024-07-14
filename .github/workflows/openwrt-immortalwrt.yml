@@ -162,28 +162,36 @@ jobs:
         path: ${{ env.FIRMWARE }}
  
         
-    - name: 发布至release
-      id: release
-      uses: ncipollo/release-action@v1
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      with:
-        name: ${{ env.FILE_TIME }} 「 openwrt-immortalwrt-X86-64 」
-        allowUpdates: true
-        tag: ${{ env.TAG_TIME }}
-        commit: main
-        token: ${{ secrets.RELEASE_TOKEN }}
-        body: |
-            [固件源码](https://github.com/immortalwrt/immortalwrt/tree/master)
-            由衷感谢所有为openwrt无私奉献的大佬们  
-        artifacts: ${{ env.FIRMWARE }}/*
-
-    - name: 删除旧的Releases
-      uses: dev-drprasad/delete-older-releases@v0.3.2
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      with:
-        keep_latest: 9
-        delete_tags: true
+     - name: Upload firmware to release
+      uses: softprops/action-gh-release@master
+      if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
-        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          name: ${{ steps.tag.outputs.release_date }} x86-64-openwrt 固件
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          body_path: release.txt
+          files: ${{ env.FIRMWARE }}/*
+
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2
+      with:
+          retain_days: 1
+          keep_minimum_runs: 1
+
+    - name: Remove old Releases
+      uses: dev-drprasad/delete-older-releases@v0.3.3
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+          keep_latest: 20
+          delete_tags: true
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Delete Artifacts
+      uses: geekyeggo/delete-artifact@v4
+      with:
+         name: |
+            bin-archive
         
     

@@ -162,7 +162,7 @@ jobs:
         path: ${{ env.FIRMWARE }}
  
         
-     - name: Upload firmware to release
+    - name: Upload firmware to release
       uses: softprops/action-gh-release@master
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
@@ -173,13 +173,13 @@ jobs:
           body_path: release.txt
           files: ${{ env.FIRMWARE }}/*
 
-    - name: Delete workflow runs
+  - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
           retain_days: 1
           keep_minimum_runs: 1
 
-    - name: Remove old Releases
+  - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.3.3
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:

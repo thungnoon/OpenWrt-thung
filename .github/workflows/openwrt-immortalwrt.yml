@@ -156,6 +156,7 @@ jobs:
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
+
     - name: 上传固件到github
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
@@ -184,7 +185,13 @@ jobs:
           body_path: release.txt
           files: ${{ env.FIRMWARE }}/*
 
-    - name: 删除旧的Releases
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2
+      with:
+          retain_days: 1
+          keep_minimum_runs: 1
+
+    - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.3.3
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
@@ -192,3 +199,9 @@ jobs:
           delete_tags: true
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Delete Artifacts
+      uses: geekyeggo/delete-artifact@v4
+      with:
+         name: |
+            bin-archive

@@ -163,7 +163,6 @@ jobs:
         name: openwrt-immortalwrt${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    
     - name: 发布至release
       id: release
       uses: ncipollo/release-action@v1

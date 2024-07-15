@@ -163,7 +163,7 @@ jobs:
         name: openwrt-immortalwrt${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-   - name: Generate release tag
+    - name: Generate release tag
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
@@ -173,7 +173,7 @@ jobs:
           echo "后台地址：192.168.5.1" >> release.txt
           echo "status=success" >> $GITHUB_OUTPUT
           
-    - name: Upload firmware to release
+   - name: Upload firmware to release
       uses: softprops/action-gh-release@master
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:

@@ -163,19 +163,26 @@ jobs:
         name: openwrt-immortalwrt${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: 发布至release
-      id: release
-      uses: ncipollo/release-action@v1
+   - name: Generate release tag
+      id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      run: |
+          echo "release_tag=$(date +"%Y.%m.%d")-Lean" >> $GITHUB_OUTPUT
+          echo "release_date=$(date +"%Y.%m.%d")" >> $GITHUB_OUTPUT
+          touch release.txt
+          echo "后台地址：192.168.5.1" >> release.txt
+          echo "status=success" >> $GITHUB_OUTPUT
+          
+    - name: Upload firmware to release
+      uses: softprops/action-gh-release@master
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.FILE_TIME }} 「 openwrt-immortalwrt-X86-64 」
-        allowUpdates: true
-        tag: ${{ env.TAG_TIME }}
-        commit: main
-        token: ${{ secrets.RELEASE_TOKEN }}
-        body: |
-          由衷感谢所有为openwrt无私奉献的大佬们！
-        artifacts: ${{ env.FIRMWARE }}/*
+          name: ${{ steps.tag.outputs.release_date }} x86-64-openwrt-immortalwrt 固件
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          body_path: release.txt
+          files: ${{ env.FIRMWARE }}/*
 
     - name: 删除旧的Releases
       uses: dev-drprasad/delete-older-releases@v0.3.3

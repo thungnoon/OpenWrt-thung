@@ -202,4 +202,4 @@ jobs:
           - ${{ env.COMMIT_AUTHOR }}
           - ${{ env.COMMIT_DATE }}
           - ${{ env.COMMIT_MESSAGE }}
-          - ${{ env.COMMIT_HASH }
+          - ${{ env.COMMIT_HASH }}

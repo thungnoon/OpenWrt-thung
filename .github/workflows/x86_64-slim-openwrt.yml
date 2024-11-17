@@ -105,7 +105,7 @@ jobs:
         KERNEL_VERSION=$(sed -n 2p include/kernel-$KERNEL | awk -F '-' '{print $2}' | awk -F ' ' '{print $1}')
         echo "KERNEL_VERSION=$KERNEL_VERSION" >> $GITHUB_ENV
         
-     - name: Cache Toolchain
+    - name: Cache Toolchain
       if: env.CACHE_TOOLCHAIN == 'true'
       uses: HiGarfield/cachewrtbuild@main
       with:

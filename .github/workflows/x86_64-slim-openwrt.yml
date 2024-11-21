@@ -2,8 +2,8 @@ name: x86_64 slim OpenWrt
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: 0 14 */5 * *
+  # schedule:
+    # - cron: 0 14 */5 * *
   watch:
     types: started
 

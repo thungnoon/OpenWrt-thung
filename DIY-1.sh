@@ -13,7 +13,7 @@ echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
 
 # adguardhome
-echo "src-git adguardhome https://github.com/kongfl888/luci-app-adguardhome.git;master" >> "feeds.conf.default"
+echo 'src-git adguardhome https://github.com/kenzok8/openwrt-packages/adguardhome' >>feeds.conf.default
 
 # msd_lite
 echo "src-git msd_lite https://github.com/ximiTech/luci-app-msd_lite.git;main" >> "feeds.conf.default"
